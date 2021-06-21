@@ -8,7 +8,7 @@ void setup() {
 }
 
 void loop() {
-    if (digitalRead(4)){
+    if (!digitalRead(4)){
       forward(100);
     } else {
         stop();
@@ -16,14 +16,14 @@ void loop() {
 }
 
 void calibrate(){
-  ESC.writeMicroseconds(1900);
+  ESC.writeMicroseconds(2300);
   delay(5000);
   ESC.writeMicroseconds(1100);
   delay(5000);  
 }
 
 void forward(double power){
-  double microseconds = map(power, 0, 100, 1100, 1900);
+  double microseconds = map(power, 0, 100, 1100, 2300);
   ESC.writeMicroseconds(microseconds);
 }
 
