@@ -1,15 +1,22 @@
 #include <Servo.h>
 
 Servo ESC;
+int leftBtn = 3;
+int rightBtn = 4;
 
 void setup() {
-  pinMode(4, INPUT_PULLUP);
+  pinMode(leftBtn, INPUT_PULLUP);
+  pinMode(rightBtn, INPUT_PULLUP);
   ESC.attach(10);
 }
 
 void loop() {
-    if (!digitalRead(4)){
+    bool halfPower = !digitalRead(leftBtn) ^ !digitalRead(rightBtn);
+    bool fullPower = !digitalRead(leftBtn) && !digitalRead(rightBtn);
+    if (fullPower){
       forward(100);
+    } else if (halfPower){
+      forward(50);
     } else {
         stop();
     }
