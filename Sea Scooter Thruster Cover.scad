@@ -1,7 +1,7 @@
 $fn=50;
 
 spacing = 8;
-radius = 46;
+radius = 47.25;
 thickness = 2;
 height = 20;
 
@@ -25,4 +25,7 @@ for(i = [spacing:spacing + thickness:radius]){
 difference(){
     cylinder(height, radius, radius);
     cylinder(height, radius - thickness, radius - thickness);
+    
+    translate([radius-5,-12,thickness])
+    cube([10, 24, height - thickness]);
 }
