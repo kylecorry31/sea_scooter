@@ -3,7 +3,13 @@ $fn=50;
 spacing = 8;
 radius = 47.25;
 thickness = 2;
-height = 20;
+
+// Front: 20, Back: 68
+height = 68;
+
+draw_side_screws = true;
+side_scew_radius = 2.5;
+side_scew_height_offset = height - 20;
 
 // Horizontal bar
 translate([-radius + thickness / 2, -thickness/2, 0])
@@ -28,4 +34,14 @@ difference(){
     
     translate([radius-5,-12,thickness])
     cube([10, 24, height - thickness]);
+    
+    if (draw_side_screws){
+        // Screw holes
+        for (i = [90:90:270]){
+            rotate([0, 0, i])
+            translate([radius-thickness/2,thickness/2,side_scew_height_offset])
+            rotate([0, 90, 0])
+            cylinder(h = thickness * 2, r = side_scew_radius, center=true);
+        }
+    }
 }
