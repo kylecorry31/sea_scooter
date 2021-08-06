@@ -9,7 +9,7 @@ height = 68;
 
 draw_side_screws = true;
 side_scew_radius = 2.5;
-side_scew_height_offset = height - 20;
+side_scew_height_offset = height - 19;
 
 // Horizontal bar
 translate([-radius + thickness / 2, -thickness/2, 0])
