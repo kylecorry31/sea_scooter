@@ -9,6 +9,14 @@ module corner_holes(x_dist, y_dist, radius, depth){
     }
 }
 
+module rounded_cube2(width, length, height, corner_radius){
+    translate([length / 2, 0, height / 2])
+    rotate([0, 90, 0])
+    hull(){
+        corner_holes(height - corner_radius, width - corner_radius, corner_radius, length);
+    }
+}
+
 module rounded_cube(width, length, height, corner_radius){
     cube_width = width - 2 * corner_radius;
     cube_height = height - 2 * corner_radius;
@@ -43,11 +51,11 @@ module rounded_cube(width, length, height, corner_radius){
 length = 125;
 corner_radius = 10;
 width = 40;
-height = 30;
+height = 28;
 height_offset = 5;
 
-inner_radius = 6;
-center_hole_offset = 6;
+inner_radius = 7;
+center_hole_offset = 9;
 
 hole_radius = 2;
 
@@ -56,12 +64,12 @@ hole_y_dist = 15;
 
 plate_width = 40;
 plate_depth = 25;
-plate_height = 12;
+plate_height = 8;
 
 thruster_radius = 48;
 
 mounting_plate_size = 80;
-mounting_plate_depth = 10;
+mounting_plate_depth = 5;
 mounting_plate_hole_radius = 4.25;
 
 
