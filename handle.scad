@@ -60,6 +60,10 @@ plate_height = 12;
 
 thruster_radius = 48;
 
+mounting_plate_size = 80;
+mounting_plate_depth = 10;
+mounting_plate_hole_radius = 4.25;
+
 
 // Mounting point
 translate([0, 0, -plate_height / 2])
@@ -77,8 +81,23 @@ difference(){
     cube_width = width - 2 * corner_radius;
     cube_height = height - 2 * corner_radius;
     
-    translate([plate_depth / 2, 0, -height / 2 + height_offset])
-    rounded_cube(width, length, height, corner_radius);
+    union(){
+        translate([plate_depth / 2, 0, -height / 2 + height_offset])
+        rounded_cube(width, length, height, corner_radius);
+        
+        // Mounting plate
+
+        difference(){
+        translate([length + mounting_plate_depth, -mounting_plate_size / 2, -mounting_plate_size / 2 + height_offset])
+        cube([mounting_plate_depth, mounting_plate_size, mounting_plate_size]);
+            
+            hole_spacing = mounting_plate_size - 20;
+            
+            translate([length + mounting_plate_depth, 0, height_offset])
+            rotate([0, 90, 0])
+            corner_holes(hole_spacing, hole_spacing, mounting_plate_hole_radius, mounting_plate_depth * 2);
+        }
+    }
     
     // Thruster
     translate([0, 0, -thruster_radius - plate_height / 2 + 1.75])
@@ -88,9 +107,10 @@ difference(){
     // Center hole
     translate([plate_depth / 2, 0, height - plate_height - center_hole_offset])
     rotate([0, 90, 0])
-    cylinder(h = length, r = inner_radius / 2);
-    
+    cylinder(h = length + mounting_plate_depth, r = inner_radius / 2);
 }
+
+
 
 
 
