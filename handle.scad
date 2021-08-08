@@ -107,7 +107,7 @@ difference(){
     // Center hole
     translate([plate_depth / 2, 0, height - plate_height - center_hole_offset])
     rotate([0, 90, 0])
-    cylinder(h = length + mounting_plate_depth, r = inner_radius / 2);
+    cylinder(h = length + mounting_plate_depth, r = inner_radius);
 }
 
 
