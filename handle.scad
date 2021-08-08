@@ -9,43 +9,17 @@ module corner_holes(x_dist, y_dist, radius, depth){
     }
 }
 
-module rounded_cube2(width, length, height, corner_radius){
-    translate([length / 2, 0, height / 2])
+module rounded_cube(width, length, height, corner_radius){
+    translate([length / 2, corner_radius, height / 2 - corner_radius])
     rotate([0, 90, 0])
     hull(){
-        corner_holes(height - corner_radius, width - corner_radius, corner_radius, length);
+        for(i = [0:1]){
+        for(j = [0:1]){
+            translate([i * height - height / 2 - 2 * i * corner_radius, j * width - width / 2 - 2 * j * corner_radius, 0])
+            cylinder(length, r1=corner_radius, r2=corner_radius, center=true);
+        }
     }
-}
-
-module rounded_cube(width, length, height, corner_radius){
-    cube_width = width - 2 * corner_radius;
-    cube_height = height - 2 * corner_radius;
-    
-    translate([0, -cube_width/2, 0])
-    cube([length, cube_width, height]);
-    
-    translate([0, -width/2, corner_radius])
-    cube([length, width, cube_height]);
-    
-    // Bottom left
-    translate([length / 2, width / 2 - corner_radius, corner_radius])
-    rotate([0, 90, 0])
-    cylinder(h = length, r = corner_radius, center=true);
-    
-    // Bottom right
-    translate([length / 2, -width / 2 + corner_radius, corner_radius])
-    rotate([0, 90, 0])
-    cylinder(h = length, r = corner_radius, center=true);
-    
-    // Top right
-    translate([length / 2, -width / 2 + corner_radius, height - width / 2 + corner_radius])
-    rotate([0, 90, 0])
-    cylinder(h = length, r = corner_radius, center=true);
-    
-    // Top left
-    translate([length / 2, width / 2 - corner_radius, height - width / 2 + corner_radius])
-    rotate([0, 90, 0])
-    cylinder(h = length, r = corner_radius, center=true);
+    }
 }
 
 length = 125;
@@ -96,12 +70,12 @@ difference(){
         // Mounting plate
 
         difference(){
-        translate([length + mounting_plate_depth, -mounting_plate_size / 2, -mounting_plate_size / 2 + height_offset])
+        translate([length + mounting_plate_depth * 1.5, -mounting_plate_size / 2, -mounting_plate_size / 2 + height_offset])
         cube([mounting_plate_depth, mounting_plate_size, mounting_plate_size]);
             
             hole_spacing = mounting_plate_size - 20;
             
-            translate([length + mounting_plate_depth, 0, height_offset])
+            translate([length + mounting_plate_depth * 1.5, 0, height_offset])
             rotate([0, 90, 0])
             corner_holes(hole_spacing, hole_spacing, mounting_plate_hole_radius, mounting_plate_depth * 2);
         }
