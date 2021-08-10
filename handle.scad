@@ -46,6 +46,10 @@ mounting_plate_size = 80;
 mounting_plate_depth = 5;
 mounting_plate_hole_radius = 4.25;
 
+button_length = 15;
+button_radius = 6.5;
+button_offset = 40;
+
 
 // Mounting point
 translate([0, 0, -plate_height / 2])
@@ -90,6 +94,10 @@ difference(){
     translate([plate_depth / 2, 0, height - plate_height - center_hole_offset])
     rotate([0, 90, 0])
     cylinder(h = length + mounting_plate_depth, r = inner_radius);
+    
+    // Button
+    translate([length + plate_depth / 2 - button_offset, 0, -height/2 + button_length/2 + height_offset])
+    cylinder(h = button_length, r = button_radius, center=true);
 }
 
 
