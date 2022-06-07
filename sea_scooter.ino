@@ -1,22 +1,20 @@
 #include <Servo.h>
 
+#define MINIMUM_MS 1100
+#define MAXIMUM_MS 2300
+#define ARM_MS 500
+#define CALIBRATION_DELAY_MS 5000
+#define SPEED 100
+#define BTN_PIN 4
+#define ESC_PIN 10
+
 Servo ESC;
-int btnPin = 4;
-int escPin = 10;
-
-int minimumMs = 1100;
-int maximumMs = 2300;
-int armMs = 500;
-int stopMs = minimumMs;
-int calibrationDelay = 5000;
-
-int forwardSpeed = 100;
 
 void setup()
 {
-  pinMode(btnPin, INPUT_PULLUP);
-  ESC.attach(escPin);
-  if (!digitalRead(btnPin)){
+  pinMode(BTN_PIN, INPUT_PULLUP);
+  ESC.attach(ESC_PIN);
+  if (is_pressed()){
     calibrate();
   }
   arm();
@@ -24,36 +22,36 @@ void setup()
 
 void loop()
 {
-  if (!digitalRead(btnPin))
+  if (is_pressed())
   {
-    forward(forwardSpeed);
+    spin(SPEED);
   }
   else
   {
-    stop();
+    spin(0);
   }
+}
+
+bool is_pressed()
+{
+  return !digitalRead(BTN_PIN);
 }
 
 void calibrate()
 {
-  ESC.writeMicroseconds(maximumMs);
-  delay(calibrationDelay);
-  ESC.writeMicroseconds(minimumMs);
-  delay(calibrationDelay);
+  ESC.writeMicroseconds(MAXIMUM_MS);
+  delay(CALIBRATION_DELAY_MS);
+  ESC.writeMicroseconds(MINIMUM_MS);
+  delay(CALIBRATION_DELAY_MS);
 }
 
 void arm(){
-  ESC.writeMicroseconds(armMs);
+  ESC.writeMicroseconds(ARM_MS);
 }
 
-void forward(double power)
+void spin(double power)
 {
-  double microseconds = map(power, 0, 100, minimumMs, maximumMs);
-  microseconds = constrain(microseconds, minimumMs, maximumMs);
+  double microseconds = map(power, 0, 100, MINIMUM_MS, MAXIMUM_MS);
+  microseconds = constrain(microseconds, MINIMUM_MS, MAXIMUM_MS);
   ESC.writeMicroseconds(microseconds);
-}
-
-void stop()
-{
-  ESC.writeMicroseconds(stopMs);
 }
